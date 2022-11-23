@@ -19,7 +19,10 @@ import Config from "../config"
 import { useStores } from "../models" // @demo remove-current-line
 import {
   LoginScreen, // @demo remove-current-line
-  WelcomeScreen,
+  // WelcomeScreen,
+  RegisterChatsScreen,
+  HomeChatsScreen,
+  PersonalChatsScreen,
 } from "../screens"
 import { DemoNavigator, DemoTabParamList } from "./DemoNavigator" // @demo remove-current-line
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
@@ -40,6 +43,9 @@ import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 export type AppStackParamList = {
   Welcome: undefined
   Login: undefined // @demo remove-current-line
+  HomeChats: undefined
+  PersonalChats: undefined
+  RegisterChats: undefined
   Demo: NavigatorScreenParams<DemoTabParamList> // @demo remove-current-line
   // 🔥 Your screens go here
 }
@@ -68,19 +74,24 @@ const AppStack = observer(function AppStack() {
   return (
     <Stack.Navigator
       screenOptions={{ headerShown: false }}
-      initialRouteName={isAuthenticated ? "Welcome" : "Login"} // @demo remove-current-line
+      initialRouteName={isAuthenticated ? "RegisterChats" : "RegisterChats"} // @demo remove-current-line
     >
       {/* @demo remove-block-start */}
       {isAuthenticated ? (
         <>
           {/* @demo remove-block-end */}
-          <Stack.Screen name="Welcome" component={WelcomeScreen} />
+          {/* <Stack.Screen name="Welcome" component={WelcomeScreen} /> */}
+          <Stack.Screen name="RegisterChats" component={RegisterChatsScreen} />
+          <Stack.Screen name="PersonalChats" component={RegisterChatsScreen} />
+          <Stack.Screen name="HomeChats" component={RegisterChatsScreen} />
+          {/* <Stack.Screen name="Welcome" component={WelcomeScreen} /> */}
           {/* @demo remove-block-start */}
-          <Stack.Screen name="Demo" component={DemoNavigator} />
+          {/* <Stack.Screen name="Demo" component={DemoNavigator} /> */}
         </>
       ) : (
         <>
-          <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen name="RegisterChats" component={RegisterChatsScreen} />
+          {/* <Stack.Screen name="Login" component={LoginScreen} /> */}
         </>
       )}
       {/* @demo remove-block-end */}

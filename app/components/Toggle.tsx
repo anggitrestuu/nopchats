@@ -114,6 +114,8 @@ export interface ToggleProps extends Omit<TouchableOpacityProps, "style"> {
    * Special prop for the switch variant that adds a text/icon label for on/off states.
    */
   switchAccessibilityMode?: "text" | "icon"
+
+  id?: string | number
 }
 
 interface ToggleInputProps {
