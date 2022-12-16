@@ -34,6 +34,20 @@ export interface ApiFeedResponse {
   items: EpisodeItem[]
 }
 
+export interface IRequestUserRegister {
+  fullName: string
+  phoneNumber: string
+}
+
+export interface IResponseUser {
+  _id: number
+  fullName: string
+  phoneNumber: string
+  profile_picture: string
+  biodata: string
+  status: string
+}
+
 /**
  * The options used to configure apisauce.
  */

@@ -12,10 +12,7 @@ import {
 } from "apisauce"
 import Config from "../../config"
 import { GeneralApiProblem, getGeneralApiProblem } from "./apiProblem" // @demo remove-current-line
-import type {
-  ApiConfig,
-  ApiFeedResponse, // @demo remove-current-line
-} from "./api.types"
+import type { ApiConfig, ApiFeedResponse, IRequestUserRegister, IResponseUser } from "./api.types"
 import type { EpisodeSnapshotIn } from "../../models/Episode" // @demo remove-current-line
 
 /**
@@ -81,6 +78,37 @@ export class Api {
       return { kind: "bad-data" }
     }
   }
+
+  async usersChatsRegister(
+    user: IRequestUserRegister,
+  ): Promise<{ kind: "ok"; user: IResponseUser } | GeneralApiProblem> {
+    // make the api call
+    const response: ApiResponse<IResponseUser> = await this.apisauce.post(
+      `/users-chats/register`,
+      user,
+    )
+
+    // the typical ways to die when calling an api
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    // transform the data into the format we are expecting
+    try {
+      // This is where we transform the data into the shape we expect for our MST model.
+      const user = response.data
+
+      return { kind: "ok", user }
+    } catch (e) {
+      if (__DEV__) {
+        console.tron.error(`Bad data: ${e.message}\n${response.data}`, e.stack)
+      }
+
+      return { kind: "bad-data" }
+    }
+  }
+
   // @demo remove-block-end
 }
 

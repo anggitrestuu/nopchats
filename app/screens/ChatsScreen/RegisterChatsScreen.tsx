@@ -1,21 +1,40 @@
 import { Screen, Text, TextField } from "../../components"
 import { observer } from "mobx-react-lite"
-import React, { FC } from "react"
+import React, { FC, useState } from "react"
 import { AppStackScreenProps } from "../../navigators"
 import { TextStyle, View, ViewStyle } from "react-native"
 import { spacing, colors } from "../../theme"
+import { TouchableOpacity } from "react-native-gesture-handler"
+import { useStores } from "../../models"
 
 interface RegisterChatsScreenProps extends AppStackScreenProps<"RegisterChats"> {}
 
 export const RegisterChatsScreen: FC<RegisterChatsScreenProps> = observer(
   function RegisterChatsScreen(_props) {
-    const [phoneNumber, setPhoneNumber] = React.useState("")
+    const [isSubmitted, setIsSubmitted] = useState(false)
+    const {
+      usersChatsStore: {
+        fullName,
+        phoneNumber,
+        setFullname,
+        setPhoneNumber,
+        fetchUserRegister,
+        validationErrors,
+      },
+    } = useStores()
 
-    const handleChange = (text: string) => {
-      setPhoneNumber(text)
+    const errors: typeof validationErrors = isSubmitted ? validationErrors : ({} as any)
+
+    const handleSubmit = async () => {
+      setIsSubmitted(true)
+
+      if (Object.values(validationErrors).some((v) => !!v)) return
+      const data = await fetchUserRegister()
+
+      if (data.kind === "ok") {
+        _props.navigation.navigate("HomeChats")
+      }
     }
-
-    console.log("phoneNumber", phoneNumber)
 
     return (
       <Screen preset="fixed" safeAreaEdges={["top"]}>
@@ -25,7 +44,9 @@ export const RegisterChatsScreen: FC<RegisterChatsScreenProps> = observer(
             <Text preset="bold" size="md" text={"Phone Number"} />
           </View>
           <View style={$done}>
-            <Text preset="default" size="md" text={"Done"} />
+            <TouchableOpacity onPress={handleSubmit}>
+              <Text preset="default" size="md" text={"Done"} />
+            </TouchableOpacity>
           </View>
         </View>
         <View style={$paddingContainer}>
@@ -44,8 +65,30 @@ export const RegisterChatsScreen: FC<RegisterChatsScreenProps> = observer(
             </View>
             <View style={$phoneNumber}>
               <TextField
-                onChangeText={handleChange}
+                value={phoneNumber}
+                name="phoneNumber"
+                onChangeText={setPhoneNumber}
+                helper={errors?.phoneNumber}
+                status={errors?.phoneNumber ? "error" : undefined}
                 placeholder="Phone Number"
+                inputWrapperStyle={$inputWrapper}
+                keyboardType="phone-pad"
+                style={$inputStyle}
+              />
+            </View>
+          </View>
+          <View style={$phoneNumberWrapper}>
+            <View style={$countryCode}>
+              <Text preset="default" size="xl" text={"FullName"} />
+            </View>
+            <View style={$phoneNumber}>
+              <TextField
+                name="fullName"
+                value={fullName}
+                onChangeText={setFullname}
+                helper={errors?.fullName}
+                status={errors?.fullName ? "error" : undefined}
+                placeholder="Isi nama lengkap anda"
                 inputWrapperStyle={$inputWrapper}
                 keyboardType="phone-pad"
                 style={$inputStyle}
@@ -57,7 +100,6 @@ export const RegisterChatsScreen: FC<RegisterChatsScreenProps> = observer(
     )
   },
 )
-
 const $paddingContainer: ViewStyle = {
   paddingHorizontal: spacing.small,
   paddingVertical: spacing.small,
@@ -88,6 +130,7 @@ const $phoneNumberWrapper: ViewStyle = {
   flexDirection: "row",
   alignItems: "center",
   justifyContent: "center",
+  marginBottom: spacing.small,
   // backgroundColor: colors.palette.neutral200,
 }
 

@@ -1,0 +1,2 @@
+1. Satu User bisa punya satu account
+2. Satu user bisa chatting dengan banyak user lain

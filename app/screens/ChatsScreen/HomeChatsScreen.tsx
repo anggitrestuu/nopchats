@@ -4,6 +4,8 @@ import { View, ViewStyle, TouchableOpacity, Image, ImageStyle } from "react-nati
 import { AppStackScreenProps } from "../../navigators/AppNavigator"
 import { Screen, Text, Toggle, ToggleProps } from "../../components"
 import { spacing, colors } from "../../theme"
+import { useFocusEffect } from "@react-navigation/native"
+import { socket } from "../../socket"
 
 interface HomeChatsScreenProps extends AppStackScreenProps<"HomeChats"> {}
 
@@ -80,16 +82,43 @@ function ControlledToggle(props: ToggleProps) {
   return <Toggle {...props} value={value} onPress={() => setValue(!value)} />
 }
 
+type message = {
+  message: string
+  id: string
+  user: string
+  timestamp: string
+}
+
+type TRoom = {
+  id: string
+  phoneNumber: string
+  messages: message[]
+}
+
 export const HomeChatsScreen: FC<HomeChatsScreenProps> = observer(function HomeChatsScreen(_props) {
   const [isShowToggle, setIsShowToggle] = React.useState<boolean>(false)
+  const [rooms, setRooms] = React.useState<TRoom[]>([])
 
   const handleShowToggle = () => {
     console.log("clicked", isShowToggle)
     setIsShowToggle(!isShowToggle)
   }
 
-  const handlePersonalChat = () => {
-    _props.navigation.navigate("PersonalChats")
+  useFocusEffect(
+    React.useCallback(() => {
+      socket.connect()
+
+      socket.on("roomsList", (room) => {
+        console.log("room", room)
+        setRooms(room)
+      })
+    }, [socket]),
+  )
+
+  const handlePersonalChat = (roomId: string) => {
+    _props.navigation.navigate("PersonalChats", {
+      room_id: roomId,
+    })
   }
 
   return (
@@ -139,21 +168,26 @@ export const HomeChatsScreen: FC<HomeChatsScreenProps> = observer(function HomeC
       </View>
 
       <View style={$screenContentContainer}>
-        {dataChats.map((item, index) => (
-          <TouchableOpacity onPress={handlePersonalChat} style={$chatsContainer} key={index}>
-            {isShowToggle ? (
-              <ControlledToggle id={index} variant="radio" containerStyle={$radioContainer} />
-            ) : null}
-            <Image source={{ uri: item.imageProfileUrl }} style={$imageRounded} />
-            <View style={$subChatsContainer}>
-              <View style={$titleChatsContainer}>
-                <Text preset="bold" size="sm" text={item.name} />
-                <Text preset="default" size="xs" text={item.date} />
+        {rooms.length > 0 &&
+          rooms.map((item, index) => (
+            <TouchableOpacity
+              onPress={() => handlePersonalChat(item.id)}
+              style={$chatsContainer}
+              key={index}
+            >
+              {isShowToggle ? (
+                <ControlledToggle id={index} variant="radio" containerStyle={$radioContainer} />
+              ) : null}
+              {/* <Image source={{ uri: item.imageProfileUrl }} style={$imageRounded} /> */}
+              <View style={$subChatsContainer}>
+                <View style={$titleChatsContainer}>
+                  <Text preset="bold" size="sm" text={item.phoneNumber ?? ""} />
+                  <Text preset="default" size="xs" text={item.messages[0]?.user ?? ""} />
+                </View>
+                <Text preset="default" size="xs" text={item.messages[0]?.message ?? ""} />
               </View>
-              <Text preset="default" size="xs" text={item.lastMessage} />
-            </View>
-          </TouchableOpacity>
-        ))}
+            </TouchableOpacity>
+          ))}
       </View>
     </Screen>
   )

@@ -12,12 +12,14 @@ export const EpisodeStoreModel = types
   })
   .actions(withSetPropAction)
   .actions((store) => ({
-    async fetchEpisodes() {
+    async fetchEpisodes(): Promise<boolean> {
       const response = await api.getEpisodes()
       if (response.kind === "ok") {
         store.setProp("episodes", response.episodes)
+        return true
       } else {
         console.tron.error(`Error fetching episodes: ${JSON.stringify(response)}`, [])
+        return false
       }
     },
     addFavorite(episode: Episode) {

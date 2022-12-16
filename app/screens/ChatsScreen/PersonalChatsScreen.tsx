@@ -1,12 +1,12 @@
 import { Screen, Text, Icon, TextField } from "../../components"
 import { AppStackScreenProps } from "../../navigators"
 import { observer } from "mobx-react-lite"
-import React, { FC, useRef } from "react"
+import React, { FC, useEffect, useRef } from "react"
 import { colors, spacing } from "../../theme"
 import { Image, ImageStyle, ScrollView, View, ViewStyle } from "react-native"
 import { TouchableOpacity } from "react-native-gesture-handler"
 import { useFocusEffect } from "@react-navigation/native"
-
+import { socket } from "../../socket"
 interface PersonalChatsScreenProps extends AppStackScreenProps<"PersonalChats"> {}
 const imageProfileUrl =
   "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
@@ -184,7 +184,16 @@ const dataMessages = [
 
 export const PersonalChatsScreen: FC<PersonalChatsScreenProps> = observer(
   function PersonalChatsScreen(_props) {
+    const roomId = _props.route.params.room_id
+
+    const userMe = "anggit"
     const [messages, setMessages] = React.useState([])
+    const [messageText, setMessageText] = React.useState({
+      room_id: roomId,
+      message: "",
+      user: userMe,
+      timestamp: "22-12-12",
+    })
     const scrollViewRef = useRef<ScrollView | null>(null)
 
     const scrollToBottom = () => {
@@ -193,12 +202,25 @@ export const PersonalChatsScreen: FC<PersonalChatsScreenProps> = observer(
       }
     }
 
+    const submitMessage = () => {
+      socket.emit("newMessage", messageText)
+    }
+
     useFocusEffect(
       React.useCallback(() => {
-        console.log("focus")
-        setMessages(dataMessages)
-        scrollToBottom()
-      }, []),
+        // setMessages(dataMessages)
+
+        console.log("roomId", roomId)
+
+        socket.emit("findRoom", {
+          room_id: roomId,
+        })
+
+        socket.on("foundRoom", (room) => {
+          console.log("foundRoom", room)
+          setMessages(room)
+        })
+      }, [socket]),
     )
 
     const handleBack = () => {
@@ -225,17 +247,18 @@ export const PersonalChatsScreen: FC<PersonalChatsScreenProps> = observer(
         </View>
         <Screen preset="scroll" style={$screenContentContainer}>
           <ScrollView ref={scrollViewRef}>
-            {messages.map((item, index) =>
-              item.isMe ? (
-                <View style={$isMeWrapper} key={index}>
-                  <Text preset="default" size="sm" text={item.message} />
-                </View>
-              ) : (
-                <View style={$isNotMeWrapper} key={index}>
-                  <Text preset="default" size="sm" text={item.message} />
-                </View>
-              ),
-            )}
+            {messages.length > 0 &&
+              messages.map((item, index) =>
+                item.user === userMe ? (
+                  <View style={$isMeWrapper} key={index}>
+                    <Text preset="default" size="sm" text={item.message} />
+                  </View>
+                ) : (
+                  <View style={$isNotMeWrapper} key={index}>
+                    <Text preset="default" size="sm" text={item.message} />
+                  </View>
+                ),
+              )}
           </ScrollView>
         </Screen>
         <View style={$bottomChats}>
@@ -248,11 +271,20 @@ export const PersonalChatsScreen: FC<PersonalChatsScreenProps> = observer(
             />
           </View>
           <View style={$bottomChatsContainer}>
-            <TextField inputWrapperStyle={$textInputWrapper} />
+            <TextField
+              name="fullName"
+              value={messageText.message}
+              onChangeText={(value) => {
+                setMessageText({ ...messageText, message: value })
+              }}
+              placeholder="Pesan..."
+              inputWrapperStyle={$textInputWrapper}
+              keyboardType="phone-pad"
+            />
           </View>
-          <View style={$iconRight}>
+          <TouchableOpacity onPress={submitMessage} style={$iconRight}>
             <Icon icon="caretRight" />
-          </View>
+          </TouchableOpacity>
         </View>
       </Screen>
     )
@@ -333,6 +365,7 @@ const $isMeWrapper: ViewStyle = {
   padding: spacing.small,
   maxWidth: "70%",
   alignSelf: "flex-end",
+  marginBottom: spacing.small,
 }
 
 const $isNotMeWrapper: ViewStyle = {
@@ -341,4 +374,5 @@ const $isNotMeWrapper: ViewStyle = {
   padding: spacing.small,
   maxWidth: "70%",
   alignSelf: "flex-start",
+  marginBottom: spacing.small,
 }
