@@ -3,8 +3,15 @@ import { AppStackScreenProps } from "../../navigators"
 import { observer } from "mobx-react-lite"
 import React, { FC, useEffect, useRef } from "react"
 import { colors, spacing } from "../../theme"
-import { Image, ImageStyle, ScrollView, View, ViewStyle } from "react-native"
-import { TouchableOpacity } from "react-native-gesture-handler"
+import {
+  Image,
+  ImageStyle,
+  ScrollView,
+  View,
+  ViewStyle,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+} from "react-native"
 import { useFocusEffect } from "@react-navigation/native"
 import { socket } from "../../socket"
 interface PersonalChatsScreenProps extends AppStackScreenProps<"PersonalChats"> {}
@@ -203,7 +210,9 @@ export const PersonalChatsScreen: FC<PersonalChatsScreenProps> = observer(
     }
 
     const submitMessage = () => {
+      scrollToBottom()
       socket.emit("newMessage", messageText)
+      setMessageText({ ...messageText, message: "" })
     }
 
     useFocusEffect(
@@ -246,20 +255,22 @@ export const PersonalChatsScreen: FC<PersonalChatsScreenProps> = observer(
           </View>
         </View>
         <Screen preset="scroll" style={$screenContentContainer}>
-          <ScrollView ref={scrollViewRef}>
-            {messages.length > 0 &&
-              messages.map((item, index) =>
-                item.user === userMe ? (
-                  <View style={$isMeWrapper} key={index}>
-                    <Text preset="default" size="sm" text={item.message} />
-                  </View>
-                ) : (
-                  <View style={$isNotMeWrapper} key={index}>
-                    <Text preset="default" size="sm" text={item.message} />
-                  </View>
-                ),
-              )}
-          </ScrollView>
+          <KeyboardAvoidingView behavior="padding">
+            <ScrollView ref={scrollViewRef}>
+              {messages.length > 0 &&
+                messages.map((item, index) =>
+                  item.user === userMe ? (
+                    <View style={$isMeWrapper} key={index}>
+                      <Text preset="default" size="sm" text={item.message} />
+                    </View>
+                  ) : (
+                    <View style={$isNotMeWrapper} key={index}>
+                      <Text preset="default" size="sm" text={item.message} />
+                    </View>
+                  ),
+                )}
+            </ScrollView>
+          </KeyboardAvoidingView>
         </Screen>
         <View style={$bottomChats}>
           <View style={$flex1}>
@@ -279,7 +290,6 @@ export const PersonalChatsScreen: FC<PersonalChatsScreenProps> = observer(
               }}
               placeholder="Pesan..."
               inputWrapperStyle={$textInputWrapper}
-              keyboardType="phone-pad"
             />
           </View>
           <TouchableOpacity onPress={submitMessage} style={$iconRight}>

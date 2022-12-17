@@ -2,78 +2,13 @@ import { observer } from "mobx-react-lite"
 import React, { FC } from "react"
 import { View, ViewStyle, TouchableOpacity, Image, ImageStyle } from "react-native"
 import { AppStackScreenProps } from "../../navigators/AppNavigator"
-import { Screen, Text, Toggle, ToggleProps } from "../../components"
+import { Icon, Screen, Text, Toggle, ToggleProps } from "../../components"
 import { spacing, colors } from "../../theme"
 import { useFocusEffect } from "@react-navigation/native"
 import { socket } from "../../socket"
+import { dataHomeScreens } from "./data"
 
 interface HomeChatsScreenProps extends AppStackScreenProps<"HomeChats"> {}
-
-const dataChats = [
-  {
-    imageProfileUrl:
-      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
-    name: "John Doe",
-    date: "12/12/2020",
-    lastMessage: "Hello, how are you?",
-  },
-  {
-    imageProfileUrl:
-      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
-    name: "John Doe",
-    date: "12/12/2020",
-    lastMessage: "Hello, how are you?",
-  },
-  {
-    imageProfileUrl:
-      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
-    name: "John Doe",
-    date: "12/12/2020",
-    lastMessage: "Hello, how are you?",
-  },
-  {
-    imageProfileUrl:
-      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
-    name: "John Doe",
-    date: "12/12/2020",
-    lastMessage: "Hello, how are you?",
-  },
-  {
-    imageProfileUrl:
-      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
-    name: "John Doe",
-    date: "12/12/2020",
-    lastMessage: "Hello, how are you?",
-  },
-  {
-    imageProfileUrl:
-      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
-    name: "John Doe",
-    date: "12/12/2020",
-    lastMessage: "Hello, how are you?",
-  },
-  {
-    imageProfileUrl:
-      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
-    name: "John Doe",
-    date: "12/12/2020",
-    lastMessage: "Hello, how are you?",
-  },
-  {
-    imageProfileUrl:
-      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
-    name: "John Doe",
-    date: "12/12/2020",
-    lastMessage: "Hello, how are you?",
-  },
-  {
-    imageProfileUrl:
-      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
-    name: "John Doe",
-    date: "12/12/2020",
-    lastMessage: "Hello, how are you?",
-  },
-]
 
 function ControlledToggle(props: ToggleProps) {
   console.log("props.id", props?.id)
@@ -82,22 +17,17 @@ function ControlledToggle(props: ToggleProps) {
   return <Toggle {...props} value={value} onPress={() => setValue(!value)} />
 }
 
-type message = {
-  message: string
-  id: string
-  user: string
-  timestamp: string
-}
-
 type TRoom = {
-  id: string
-  phoneNumber: string
-  messages: message[]
+  id?: string
+  imageProfileUrl?: string
+  name?: string
+  date?: string
+  lastMessage?: string
 }
 
 export const HomeChatsScreen: FC<HomeChatsScreenProps> = observer(function HomeChatsScreen(_props) {
   const [isShowToggle, setIsShowToggle] = React.useState<boolean>(false)
-  const [rooms, setRooms] = React.useState<TRoom[]>([])
+  const [rooms, setRooms] = React.useState<TRoom[]>(dataHomeScreens)
 
   const handleShowToggle = () => {
     console.log("clicked", isShowToggle)
@@ -122,7 +52,7 @@ export const HomeChatsScreen: FC<HomeChatsScreenProps> = observer(function HomeC
   }
 
   return (
-    <Screen preset="scroll" safeAreaEdges={["top"]}>
+    <Screen contentContainerStyle={$mainContainer} preset="fixed" safeAreaEdges={["top"]}>
       <View style={$heading}>
         <TouchableOpacity onPress={handleShowToggle}>
           <Text
@@ -167,7 +97,7 @@ export const HomeChatsScreen: FC<HomeChatsScreenProps> = observer(function HomeC
         </View>
       </View>
 
-      <View style={$screenContentContainer}>
+      <Screen preset="scroll" style={$screenContentContainer}>
         {rooms.length > 0 &&
           rooms.map((item, index) => (
             <TouchableOpacity
@@ -178,17 +108,21 @@ export const HomeChatsScreen: FC<HomeChatsScreenProps> = observer(function HomeC
               {isShowToggle ? (
                 <ControlledToggle id={index} variant="radio" containerStyle={$radioContainer} />
               ) : null}
-              {/* <Image source={{ uri: item.imageProfileUrl }} style={$imageRounded} /> */}
+              <Image source={{ uri: item.imageProfileUrl }} style={$imageRounded} />
               <View style={$subChatsContainer}>
                 <View style={$titleChatsContainer}>
-                  <Text preset="bold" size="sm" text={item.phoneNumber ?? ""} />
-                  <Text preset="default" size="xs" text={item.messages[0]?.user ?? ""} />
+                  <Text preset="bold" size="sm" text={item.name ?? ""} />
+                  <Text preset="default" size="xs" text={item.date} />
                 </View>
-                <Text preset="default" size="xs" text={item.messages[0]?.message ?? ""} />
+                <View style={$flexRow}>
+                  <Icon icon="read" />
+                  <Text preset="default" size="xs" text={item.lastMessage} />
+                </View>
               </View>
             </TouchableOpacity>
           ))}
-      </View>
+      </Screen>
+      <View style={$screenContentContainer}></View>
     </Screen>
   )
 })
@@ -209,7 +143,7 @@ const $paddingContent = {
 }
 
 const $screenContentContainer: ViewStyle = {
-  ...$paddingContent,
+  paddingHorizontal: spacing.small,
 }
 
 const $flexRow: ViewStyle = {
@@ -253,4 +187,8 @@ const $heading: ViewStyle = {
 const $subHeading: ViewStyle = {
   ...$flexRow,
   justifyContent: "space-between",
+}
+
+const $mainContainer: ViewStyle = {
+  flex: 1,
 }

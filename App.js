@@ -13,3 +13,4 @@ function IgniteApp() {
 
 registerRootComponent(IgniteApp)
 export default IgniteApp
+

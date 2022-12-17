@@ -47,6 +47,8 @@ const palette = {
   green300: "#8DE775",
   green400: "#6DDA52",
   green500: "#4CCD2F",
+
+  red100: "#FF3B30",
 }
 
 export const colors = {

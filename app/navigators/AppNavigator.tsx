@@ -16,12 +16,7 @@ import { observer } from "mobx-react-lite"
 import React from "react"
 import { useColorScheme } from "react-native"
 import Config from "../config"
-import {
-  // WelcomeScreen,
-  RegisterChatsScreen,
-  HomeChatsScreen,
-  PersonalChatsScreen,
-} from "../screens"
+import { ChatNavigator, ChatTabParamList } from "./ChatNavigator"
 import { DemoTabParamList } from "./DemoNavigator" // @demo remove-current-line
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 
@@ -45,7 +40,9 @@ export type AppStackParamList = {
   PersonalChats: {
     room_id: string
   }
+  EditContact: undefined
   RegisterChats: undefined
+  Chat: NavigatorScreenParams<ChatTabParamList>
   Demo: NavigatorScreenParams<DemoTabParamList> // @demo remove-current-line
   // 🔥 Your screens go here
 }
@@ -71,12 +68,15 @@ const AppStack = observer(function AppStack() {
   return (
     <Stack.Navigator
       screenOptions={{ headerShown: false }}
-      initialRouteName={"PersonalChats"} // @demo remove-current-line
+      initialRouteName={"Chat"} // @demo remove-current-line
     >
       <>
+        <Stack.Screen name="Chat" component={ChatNavigator} />
+
+        {/* <Stack.Screen name="EditContact" component={EditContactChatsScreen} />
         <Stack.Screen name="RegisterChats" component={RegisterChatsScreen} />
         <Stack.Screen name="PersonalChats" component={PersonalChatsScreen} />
-        <Stack.Screen name="HomeChats" component={HomeChatsScreen} />
+        <Stack.Screen name="HomeChats" component={HomeChatsScreen} /> */}
         {/* <Stack.Screen name="Login" component={LoginScreen} /> */}
       </>
 

@@ -107,6 +107,14 @@ export const iconRegistry = {
   slack: require("../../assets/icons/slack.png"),
   view: require("../../assets/icons/view.png"),
   x: require("../../assets/icons/x.png"),
+  calls: require("../../assets/icons/calls.png"),
+  camera: require("../../assets/icons/camera.png"),
+  chats: require("../../assets/icons/chats.png"),
+  status: require("../../assets/icons/status.png"),
+  settingsv2: require("../../assets/icons/settingsv2.png"),
+  photo: require("../../assets/icons/photo.png"),
+  voiceRecord: require("../../assets/icons/voice-record.png"),
+  read: require("../../assets/icons/read.png"),
 }
 
 const $imageStyle: ImageStyle = {
