@@ -115,6 +115,8 @@ export const iconRegistry = {
   photo: require("../../assets/icons/photo.png"),
   voiceRecord: require("../../assets/icons/voice-record.png"),
   read: require("../../assets/icons/read.png"),
+  cameraStatus: require("../../assets/icons/camera-status.png"),
+  pencilStatus: require("../../assets/icons/pencil-status.png"),
 }
 
 const $imageStyle: ImageStyle = {
