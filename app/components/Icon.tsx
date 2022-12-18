@@ -117,6 +117,7 @@ export const iconRegistry = {
   read: require("../../assets/icons/read.png"),
   cameraStatus: require("../../assets/icons/camera-status.png"),
   pencilStatus: require("../../assets/icons/pencil-status.png"),
+  palete: require("../../assets/icons/palete.png"),
 }
 
 const $imageStyle: ImageStyle = {

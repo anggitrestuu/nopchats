@@ -19,6 +19,8 @@ import Config from "../config"
 import { ChatNavigator, ChatTabParamList } from "./ChatNavigator"
 import { DemoTabParamList } from "./DemoNavigator" // @demo remove-current-line
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
+import { WelcomeScreen } from "../screens"
+import { CreateStatusScreen } from "../screens/ChatsScreen/CreateStatus"
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -43,6 +45,7 @@ export type AppStackParamList = {
   EditContact: undefined
   RegisterChats: undefined
   Chat: NavigatorScreenParams<ChatTabParamList>
+  CreateStatus: undefined
   Demo: NavigatorScreenParams<DemoTabParamList> // @demo remove-current-line
   // 🔥 Your screens go here
 }
@@ -71,6 +74,8 @@ const AppStack = observer(function AppStack() {
       initialRouteName={"Chat"} // @demo remove-current-line
     >
       <>
+        <Stack.Screen name="Welcome" component={WelcomeScreen} />
+        <Stack.Screen name="CreateStatus" component={CreateStatusScreen} />
         <Stack.Screen name="Chat" component={ChatNavigator} />
 
         {/* <Stack.Screen name="EditContact" component={EditContactChatsScreen} />

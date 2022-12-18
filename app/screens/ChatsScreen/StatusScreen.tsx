@@ -8,6 +8,10 @@ import { ChatTabScreenProps } from "app/navigators/ChatNavigator"
 interface StatusScreenProps extends ChatTabScreenProps<"Status"> {}
 
 export const StatusScreen: FC<StatusScreenProps> = observer(function StatusScreen(_props) {
+  const handleCreateStatus = () => {
+    _props.navigation.navigate("CreateStatus")
+  }
+
   return (
     <Screen contentContainerStyle={$mainContainer} preset="fixed" safeAreaEdges={["top"]}>
       <View style={$heading}>
@@ -38,13 +42,17 @@ export const StatusScreen: FC<StatusScreenProps> = observer(function StatusScree
 
         <View style={$actionAlign}>
           <View style={$actionRow}>
-            <Icon
-              style={{
-                marginRight: spacing.small,
-              }}
-              icon="cameraStatus"
-            />
-            <Icon icon="pencilStatus" />
+            <TouchableOpacity>
+              <Icon
+                style={{
+                  marginRight: spacing.small,
+                }}
+                icon="cameraStatus"
+              />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={handleCreateStatus}>
+              <Icon icon="pencilStatus" />
+            </TouchableOpacity>
           </View>
         </View>
       </View>

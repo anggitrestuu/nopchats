@@ -11,7 +11,6 @@ import {
 import { isRTL, translate } from "../i18n"
 import { colors, spacing, typography } from "../theme"
 import { Text, TextProps } from "./Text"
-import { useController, useFormContext, ControllerProps, UseControllerProps } from "react-hook-form"
 
 export interface TextFieldAccessoryProps {
   style: StyleProp<any>
@@ -20,7 +19,7 @@ export interface TextFieldAccessoryProps {
   editable: boolean
 }
 
-export interface TextFieldProps extends Omit<TextInputProps, "ref">, UseControllerProps {
+export interface TextFieldProps extends Omit<TextInputProps, "ref"> {
   /**
    * A style modifier for different input states.
    */
