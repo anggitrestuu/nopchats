@@ -2,10 +2,10 @@
 import { observer } from "mobx-react-lite"
 import React, { FC } from "react"
 import { Image, ImageStyle, TextStyle, TouchableOpacity, View, ViewStyle } from "react-native"
-import { Icon, Screen, Text, TextField } from "../../components"
-import { colors, spacing } from "../../theme"
-import { ChatTabScreenProps } from "../../navigators/ChatNavigator"
-import { dataHomeScreens } from "./data"
+import { Icon, Screen, Text, TextField } from "../../../components"
+import { colors, spacing } from "../../../theme"
+import { ChatTabScreenProps } from "../../../navigators/WhatsAppNavigator"
+import { dataHomeScreens } from "../data"
 
 interface CallsScreenProps extends ChatTabScreenProps<"Calls"> {}
 

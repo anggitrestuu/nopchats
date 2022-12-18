@@ -1,12 +1,12 @@
 import { observer } from "mobx-react-lite"
 import React, { FC } from "react"
 import { View, ViewStyle, TouchableOpacity, Image, ImageStyle } from "react-native"
-import { AppStackScreenProps } from "../../navigators/AppNavigator"
-import { Icon, Screen, Text, Toggle, ToggleProps } from "../../components"
-import { spacing, colors } from "../../theme"
+import { AppStackScreenProps } from "../../../navigators/AppNavigator"
+import { Icon, Screen, Text, Toggle, ToggleProps } from "../../../components"
+import { spacing, colors } from "../../../theme"
 import { useFocusEffect } from "@react-navigation/native"
-import { socket } from "../../socket"
-import { dataHomeScreens } from "./data"
+import { socket } from "../../../socket"
+import { dataHomeScreens } from "../data"
 
 interface HomeChatsScreenProps extends AppStackScreenProps<"HomeChats"> {}
 

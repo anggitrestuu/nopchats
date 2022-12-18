@@ -1,9 +1,9 @@
 import { observer } from "mobx-react-lite"
 import React, { FC } from "react"
 import { View, ViewStyle, TouchableOpacity, Image, ImageStyle } from "react-native"
-import { Icon, Screen, Text } from "../../components"
-import { spacing, colors } from "../../theme"
-import { ChatTabScreenProps } from "app/navigators/ChatNavigator"
+import { Icon, Screen, Text } from "../../../components"
+import { spacing, colors } from "../../../theme"
+import { ChatTabScreenProps } from "app/navigators/WhatsAppNavigator"
 
 interface StatusScreenProps extends ChatTabScreenProps<"Status"> {}
 

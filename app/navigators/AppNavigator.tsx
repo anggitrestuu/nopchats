@@ -16,11 +16,12 @@ import { observer } from "mobx-react-lite"
 import React from "react"
 import { useColorScheme } from "react-native"
 import Config from "../config"
-import { ChatNavigator, ChatTabParamList } from "./ChatNavigator"
+import { ChatNavigator, ChatTabParamList } from "./WhatsAppNavigator"
 import { DemoTabParamList } from "./DemoNavigator" // @demo remove-current-line
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 import { WelcomeScreen } from "../screens"
-import { CreateStatusScreen } from "../screens/ChatsScreen/CreateStatus"
+import { CreateStatusScreen } from "../screens/WhatsApp/Status/CreateStatus"
+import { SettingsEditProfileScreen } from "../screens/WhatsApp/Settings/EditProfile"
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -46,8 +47,7 @@ export type AppStackParamList = {
   RegisterChats: undefined
   Chat: NavigatorScreenParams<ChatTabParamList>
   CreateStatus: undefined
-  Demo: NavigatorScreenParams<DemoTabParamList> // @demo remove-current-line
-  // 🔥 Your screens go here
+  Demo: NavigatorScreenParams<DemoTabParamList>
 }
 
 /**

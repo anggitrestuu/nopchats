@@ -1,8 +1,8 @@
 export * from "./WelcomeScreen"
-export * from "./ChatsScreen/HomeChatsScreen"
-export * from "./ChatsScreen/PersonalChatsScreen"
-export * from "./ChatsScreen/RegisterChatsScreen"
-export * from "./ChatsScreen/EditContact"
+export * from "./WhatsApp/Chats/HomeChatsScreen"
+export * from "./WhatsApp/Chats/PersonalChatsScreen"
+export * from "./WhatsApp/RegisterChatsScreen"
+export * from "./WhatsApp/EditContact"
 // @demo remove-block-start
 export * from "./LoginScreen"
 export * from "./DemoCommunityScreen"

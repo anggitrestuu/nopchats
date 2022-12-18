@@ -4,9 +4,12 @@ import React from "react"
 import { TextStyle, ViewStyle } from "react-native"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { Icon } from "../components"
-import * as Chats from "../screens/ChatsScreen"
+import * as Chats from "../screens/WhatsApp"
 import { colors, spacing, typography } from "../theme"
 import { AppStackParamList, AppStackScreenProps } from "./AppNavigator"
+import { SettingsEditProfileScreen } from "../screens/WhatsApp/Settings/EditProfile"
+import { createNativeStackNavigator } from "@react-navigation/native-stack"
+import { SettingsStarredMessagesScreen } from "../screens/WhatsApp/Settings/StarredMessages"
 
 export type ChatTabParamList = {
   Status: undefined
@@ -14,6 +17,8 @@ export type ChatTabParamList = {
   Camera: undefined
   Chats: undefined
   Settings: undefined
+  SettingsEditProfile: undefined
+  SettingsStarredMessages: undefined
 }
 
 export type ChatTabScreenProps<T extends keyof ChatTabParamList> = CompositeScreenProps<
@@ -22,6 +27,18 @@ export type ChatTabScreenProps<T extends keyof ChatTabParamList> = CompositeScre
 >
 
 const Tab = createBottomTabNavigator<ChatTabParamList>()
+
+const Stack = createNativeStackNavigator<ChatTabParamList>()
+
+function SettingsStackScreen() {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={"Settings"}>
+      <Stack.Screen name="Settings" component={Chats.SettingsScreen} />
+      <Stack.Screen name="SettingsEditProfile" component={SettingsEditProfileScreen} />
+      <Stack.Screen name="SettingsStarredMessages" component={SettingsStarredMessagesScreen} />
+    </Stack.Navigator>
+  )
+}
 
 export function ChatNavigator() {
   const { bottom } = useSafeAreaInsets()
@@ -113,7 +130,7 @@ export function ChatNavigator() {
 
       <Tab.Screen
         name="Settings"
-        component={Chats.SettingsScreen}
+        component={SettingsStackScreen}
         options={{
           tabBarLabel: "Settings",
           tabBarIcon: ({ focused }) => (

@@ -2,9 +2,9 @@
 import { observer } from "mobx-react-lite"
 import React, { FC } from "react"
 import { TextStyle, TouchableOpacity, View, ViewStyle } from "react-native"
-import { Icon, Screen, TextField } from "../../components"
-import { AppStackScreenProps } from "../../navigators"
-import { colors, spacing } from "../../theme"
+import { Icon, Screen, TextField } from "../../../components"
+import { AppStackScreenProps } from "../../../navigators"
+import { colors, spacing } from "../../../theme"
 
 interface CreateStatusScreenProps extends AppStackScreenProps<"CreateStatus"> {}
 

@@ -1,8 +1,8 @@
-import { Screen, Text, Icon, TextField } from "../../components"
-import { AppStackScreenProps } from "../../navigators"
+import { Screen, Text, Icon, TextField } from "../../../components"
+import { AppStackScreenProps } from "../../../navigators"
 import { observer } from "mobx-react-lite"
-import React, { FC, useEffect, useRef } from "react"
-import { colors, spacing } from "../../theme"
+import React, { FC, useRef } from "react"
+import { colors, spacing } from "../../../theme"
 import {
   Image,
   ImageStyle,
@@ -13,7 +13,7 @@ import {
   KeyboardAvoidingView,
 } from "react-native"
 import { useFocusEffect } from "@react-navigation/native"
-import { socket } from "../../socket"
+import { socket } from "../../../socket"
 interface PersonalChatsScreenProps extends AppStackScreenProps<"PersonalChats"> {}
 const imageProfileUrl =
   "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"

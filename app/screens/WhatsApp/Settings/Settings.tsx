@@ -2,15 +2,21 @@
 import { observer } from "mobx-react-lite"
 import React, { FC } from "react"
 import { View, ViewStyle, TouchableOpacity, Image, ImageStyle } from "react-native"
-import { Icon, Screen, Text } from "../../components"
-import { spacing, colors } from "../../theme"
-import { ChatTabScreenProps } from "app/navigators/ChatNavigator"
+import { Icon, Screen, Text } from "../../../components"
+import { spacing, colors } from "../../../theme"
+import { ChatTabScreenProps } from "app/navigators/WhatsAppNavigator"
 
 interface SettingsScreenProps extends ChatTabScreenProps<"Settings"> {}
 
 export const SettingsScreen: FC<SettingsScreenProps> = observer(function SettingsScreen(_props) {
-  const handleCreateStatus = () => {
-    _props.navigation.navigate("CreateStatus")
+  const { navigation } = _props
+
+  const handleSettingEditProfile = () => {
+    navigation.navigate("SettingsEditProfile")
+  }
+
+  const handleSettingsStarredMessages = () => {
+    navigation.navigate("SettingsStarredMessages")
   }
 
   return (
@@ -19,7 +25,8 @@ export const SettingsScreen: FC<SettingsScreenProps> = observer(function Setting
         <Text preset="bold" size="md" text="Settings" />
       </View>
 
-      <View
+      <TouchableOpacity
+        onPress={handleSettingEditProfile}
         style={{
           ...$paddingContent,
           ...$flexRow,
@@ -35,12 +42,10 @@ export const SettingsScreen: FC<SettingsScreenProps> = observer(function Setting
 
         <View style={$actionAlign}>
           <View style={$actionRow}>
-            <TouchableOpacity onPress={handleCreateStatus}>
-              <Icon icon="caretRight" color={colors.palette.neutral500} />
-            </TouchableOpacity>
+            <Icon icon="caretRight" color={colors.palette.neutral500} />
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
 
       <View
         style={{
@@ -50,7 +55,8 @@ export const SettingsScreen: FC<SettingsScreenProps> = observer(function Setting
           backgroundColor: colors.palette.neutral100,
         }}
       >
-        <View
+        <TouchableOpacity
+          onPress={handleSettingsStarredMessages}
           style={{
             ...$flexRow,
             marginBottom: spacing.medium,
@@ -68,7 +74,7 @@ export const SettingsScreen: FC<SettingsScreenProps> = observer(function Setting
           >
             <Text size="md" text="Starred Messages" />
           </View>
-        </View>
+        </TouchableOpacity>
         <View
           style={{
             ...$flexRow,

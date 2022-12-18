@@ -127,6 +127,7 @@ export const iconRegistry = {
   help: require("../../assets/icons/help.png"),
   tell: require("../../assets/icons/tell.png"),
   account: require("../../assets/icons/account.png"),
+  nullStarredMessages: require("../../assets/icons/null-starred-messages.png"),
 }
 
 const $imageStyle: ImageStyle = {
