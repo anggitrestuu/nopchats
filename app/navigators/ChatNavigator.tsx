@@ -28,7 +28,7 @@ export function ChatNavigator() {
 
   return (
     <Tab.Navigator
-      initialRouteName="Status"
+      initialRouteName="Calls"
       screenOptions={{
         headerShown: false,
         tabBarHideOnKeyboard: true,
@@ -59,7 +59,7 @@ export function ChatNavigator() {
 
       <Tab.Screen
         name="Calls"
-        component={Chats.HomeChatsScreen}
+        component={Chats.CallsScreen}
         options={{
           tabBarLabel: "Calls",
           tabBarIcon: ({ focused }) => (
@@ -113,7 +113,7 @@ export function ChatNavigator() {
 
       <Tab.Screen
         name="Settings"
-        component={Chats.HomeChatsScreen}
+        component={Chats.SettingsScreen}
         options={{
           tabBarLabel: "Settings",
           tabBarIcon: ({ focused }) => (

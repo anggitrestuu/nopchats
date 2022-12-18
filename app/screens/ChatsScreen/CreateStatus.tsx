@@ -1,8 +1,8 @@
 /* eslint-disable react-native/no-inline-styles */
 import { observer } from "mobx-react-lite"
 import React, { FC } from "react"
-import { SafeAreaView, TextStyle, TouchableOpacity, View, ViewStyle } from "react-native"
-import { Icon, TextField } from "../../components"
+import { TextStyle, TouchableOpacity, View, ViewStyle } from "react-native"
+import { Icon, Screen, TextField } from "../../components"
 import { AppStackScreenProps } from "../../navigators"
 import { colors, spacing } from "../../theme"
 
@@ -18,7 +18,7 @@ export const CreateStatusScreen: FC<CreateStatusScreenProps> = observer(function
     colors.palette.primary100,
   ]
 
-  const [backgroundColour, setBackgroundColour] = React.useState<string>(listBackgroundColour[0])
+  const [, setBackgroundColour] = React.useState<string>(listBackgroundColour[0])
 
   const handleChangeBackgroundColour = () => {
     const randomIndex = Math.floor(Math.random() * listBackgroundColour.length)
@@ -30,12 +30,7 @@ export const CreateStatusScreen: FC<CreateStatusScreenProps> = observer(function
   }
 
   return (
-    <SafeAreaView
-      style={{
-        ...$container,
-        backgroundColor: backgroundColour,
-      }}
-    >
+    <Screen preset="fixed" safeAreaEdges={["top"]} contentContainerStyle={$screenContentContainer}>
       <View style={$topContainer}>
         <View style={$flexRow}>
           <TouchableOpacity onPress={handleToHome}>
@@ -61,14 +56,14 @@ export const CreateStatusScreen: FC<CreateStatusScreenProps> = observer(function
           placeholderTextColor={colors.palette.neutral100}
         />
       </View>
-    </SafeAreaView>
+    </Screen>
   )
 })
 
-const $container: ViewStyle = {
+const $screenContentContainer: ViewStyle = {
+  flex: 1,
   padding: spacing.small,
   backgroundColor: colors.palette.blue100,
-  flex: 1,
 }
 
 const $topContainer: ViewStyle = {

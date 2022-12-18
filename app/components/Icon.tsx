@@ -118,6 +118,15 @@ export const iconRegistry = {
   cameraStatus: require("../../assets/icons/camera-status.png"),
   pencilStatus: require("../../assets/icons/pencil-status.png"),
   palete: require("../../assets/icons/palete.png"),
+  info: require("../../assets/icons/info.png"),
+  starred: require("../../assets/icons/starred.png"),
+  waWeb: require("../../assets/icons/wa-web.png"),
+  chatsWa: require("../../assets/icons/chats-wa.png"),
+  dataStorage: require("../../assets/icons/data-storage.png"),
+  notif: require("../../assets/icons/notif.png"),
+  help: require("../../assets/icons/help.png"),
+  tell: require("../../assets/icons/tell.png"),
+  account: require("../../assets/icons/account.png"),
 }
 
 const $imageStyle: ImageStyle = {

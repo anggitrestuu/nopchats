@@ -103,11 +103,6 @@ const $heading: ViewStyle = {
   justifyContent: "space-between",
 }
 
-// const $action: ViewStyle = {
-//   align: { flex: 1, alignItems: "flex-end" },
-//   row: { flexDirection: "row" },
-// }
-
 const $actionAlign: ViewStyle = {
   flex: 1,
   alignItems: "flex-end",

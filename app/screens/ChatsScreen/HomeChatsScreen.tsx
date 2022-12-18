@@ -190,6 +190,5 @@ const $subHeading: ViewStyle = {
 }
 
 const $mainContainer: ViewStyle = {
-
   flex: 1,
 }
