@@ -19,6 +19,10 @@ export const SettingsScreen: FC<SettingsScreenProps> = observer(function Setting
     navigation.navigate("SettingsStarredMessages")
   }
 
+  const handleSettingsAccount = () => {
+    navigation.navigate("SettingsAccount")
+  }
+
   return (
     <Screen contentContainerStyle={$mainContainer} preset="auto" safeAreaEdges={["top"]}>
       <View style={$heading}>
@@ -105,7 +109,8 @@ export const SettingsScreen: FC<SettingsScreenProps> = observer(function Setting
           backgroundColor: colors.palette.neutral100,
         }}
       >
-        <View
+        <TouchableOpacity
+          onPress={handleSettingsAccount}
           style={{
             ...$flexRow,
             marginBottom: spacing.medium,
@@ -123,7 +128,7 @@ export const SettingsScreen: FC<SettingsScreenProps> = observer(function Setting
           >
             <Text size="md" text="Account" />
           </View>
-        </View>
+        </TouchableOpacity>
         <View
           style={{
             ...$flexRow,

@@ -10,6 +10,7 @@ import { AppStackParamList, AppStackScreenProps } from "./AppNavigator"
 import { SettingsEditProfileScreen } from "../screens/WhatsApp/Settings/EditProfile"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { SettingsStarredMessagesScreen } from "../screens/WhatsApp/Settings/StarredMessages"
+import { SettingsAccountScreen } from "../screens/WhatsApp/Settings/Account"
 
 export type ChatTabParamList = {
   Status: undefined
@@ -19,6 +20,7 @@ export type ChatTabParamList = {
   Settings: undefined
   SettingsEditProfile: undefined
   SettingsStarredMessages: undefined
+  SettingsAccount: undefined
 }
 
 export type ChatTabScreenProps<T extends keyof ChatTabParamList> = CompositeScreenProps<
@@ -36,6 +38,7 @@ function SettingsStackScreen() {
       <Stack.Screen name="Settings" component={Chats.SettingsScreen} />
       <Stack.Screen name="SettingsEditProfile" component={SettingsEditProfileScreen} />
       <Stack.Screen name="SettingsStarredMessages" component={SettingsStarredMessagesScreen} />
+      <Stack.Screen name="SettingsAccount" component={SettingsAccountScreen} />
     </Stack.Navigator>
   )
 }
